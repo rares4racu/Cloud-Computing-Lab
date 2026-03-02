@@ -1,0 +1,207 @@
+{
+	"info": {
+		"_postman_id": "1fc363e1-24ea-4d94-836e-756446a416d3",
+		"name": "Cloud_Computing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44046255",
+		"_collection_link": "https://rares4racu-1321027.postman.co/workspace/rares4racu's-Workspace~379b4369-2249-4a36-8ea7-acca1cffd89f/collection/44046255-1fc363e1-24ea-4d94-836e-756446a416d3?action=share&source=collection_link&creator=44046255"
+	},
+	"item": [
+		{
+			"name": "clients",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/clients",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"clients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "clients_by_id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/clients?id=2341",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"clients"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "2341"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "clients_name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/clients?name=Rares",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"clients"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Rares"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "clients",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"id\": 2345,\r\n        \"status\": \"Inactive\",\r\n        \"name\": \"Stefan\",\r\n        \"emailAddress\": \"Stef45@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/clients",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"clients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "clients",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"id\": 2346,\r\n        \"status\": \"Inactive\",\r\n        \"name\": \"Andreea\",\r\n        \"emailAddress\": \"AnDrEeA428@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/clients",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"clients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "clients_by_id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"status\": \"Active\",\r\n        \"name\": \"Andreea\",\r\n        \"emailAddress\": \"AnDrEeA428@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/clients?id=2346",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"clients"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "2346"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "clients_by_id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/clients?id=2346",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"clients"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "2346"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
