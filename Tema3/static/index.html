@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Clients API</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+  body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; height: 100vh; background: #f7f8fa; }
+  #sidebar {
+    width: 220px; background: #2c3e50; color: white; padding: 20px; box-sizing: border-box;
+    display: flex; flex-direction: column; align-items: stretch;
+  }
+  #sidebar button {
+    margin: 10px 0; padding: 12px; cursor: pointer;
+    border: none; border-radius: 5px; background: #34495e; color: white; font-size: 14px;
+    transition: 0.2s;
+  }
+  #sidebar button:hover { background: #1abc9c; }
+  #sidebar h2 { margin-top: 0; font-size: 18px; }
+
+  #content {
+    flex: 1; padding: 30px; overflow-y: auto;
+  }
+
+  h1 { color: #2c3e50; }
+  h2 { margin-bottom: 10px; color: #34495e; }
+
+  input, button { margin: 5px 0; padding: 8px; font-size: 14px; border-radius: 4px; border: 1px solid #ccc; }
+  button { background: #1abc9c; color: white; border: none; cursor: pointer; transition: 0.2s; }
+  button:hover { background: #16a085; }
+
+  table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+  th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+  th { background: #34495e; color: white; }
+  tr:nth-child(even) { background: #f2f2f2; }
+
+  #content { overflow-y: auto; max-height: 100vh; }
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+  <button data-backend="">Home</button>
+  <button data-backend="/clients">Cloud API</button>
+</div>
+
+<div id="content">
+  <!-- Conținutul dinamic va fi aici -->
+</div>
+
+<script>
+function getQueryParam(name) {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(name);
+}
+
+$("#sidebar button").click(function() {
+  const backend = $(this).data("backend");
+  if (!backend) {
+    $("#content").html(`
+      <h1>Main Page</h1>
+      <p>Select a server to test.</p>
+    `);
+  } else {
+    loadClientPage(backend);
+  }
+});
+
+function loadClientPage(backendURL) {
+  $("#content").html(`
+    <h1>Clients API</h1>
+
+    <h2>Get Clients</h2>
+    <input type="number" id="getId" placeholder="ID (optional)">
+    <input type="text" id="getName" placeholder="Name (optional)">
+    <button id="loadClients">Load Clients</button>
+    <ul id="clientsList"></ul>
+    <h2>Post Clients</h2>
+
+    <input type="number" id="postId" placeholder="ID">
+    <input type="text" id="postStatus" placeholder="Status">
+    <input type="text" id="postName" placeholder="Name">
+    <input type="email" id="postEmail" placeholder="Email">
+    <button id="addClient">Add Client</button>
+
+    <h2>Put Clients</h2>
+    <input type="number" id="putIdQuery" placeholder="ID (optional)">
+    <input type="text" id="putStatus" placeholder="Status">
+    <input type="text" id="putName" placeholder="Name">
+    <input type="email" id="putEmail" placeholder="Email">
+    <button id="updateClient">Update Client</button>
+
+    <h2>Delete Clients</h2>
+    <input type="number" id="deleteId" placeholder="ID">
+    <button id="deleteClient">Delete Client</button>
+  `);
+
+  // GET
+  $("#loadClients").click(function() {
+  const id = $("#getId").val();
+  const name = $("#getName").val();
+  let url = backendURL;
+  let params = [];
+  if (id) params.push(`id=${id}`);
+  if (name) params.push(`name=${name}`);
+  if (params.length) url += "?" + params.join("&");
+
+  $.get(url, function(data) {
+    $("#clientsList").empty();
+    if (Array.isArray(data)) {
+      data.forEach(c =>
+        $("#clientsList").append(`<li>${c.id} - ${c.name} (${c.emailAddress}) - Status: ${c.status}</li>`)
+      );
+    } else if (data) {
+      $("#clientsList").append(`<li>${data.id} - ${data.name} (${data.emailAddress}) - Status: ${data.status}</li>`);
+    }
+  });
+});
+
+  // POST
+  $("#addClient").click(function() {
+    const client = {
+      id: parseInt($("#postId").val()),
+      status: $("#postStatus").val(),
+      name: $("#postName").val(),
+      emailAddress: $("#postEmail").val()
+    };
+    $.ajax({
+      url: backendURL,
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(client),
+      success: function(resp) { alert(JSON.stringify(resp)); }
+    });
+  });
+
+  // PUT
+  $("#updateClient").click(function() {
+    const idQuery = $("#putIdQuery").val();
+    const client = {
+      id: parseInt(idQuery),
+      status: $("#putStatus").val(),
+      name: $("#putName").val(),
+      emailAddress: $("#putEmail").val()
+    };
+    let url = backendURL;
+    if (idQuery) url += `?id=${idQuery}`;
+    $.ajax({
+      url: url,
+      type: "PUT",
+      contentType: "application/json",
+      data: JSON.stringify(client),
+      success: function(resp) { alert(JSON.stringify(resp)); }
+    });
+  });
+
+  // DELETE
+  $("#deleteClient").click(function() {
+    const id = $("#deleteId").val();
+    if (!id) { alert("Enter client ID"); return; }
+    $.ajax({
+      url: backendURL + "?id=" + id,
+      type: "DELETE",
+      success: function(resp) { alert(JSON.stringify(resp)); }
+    });
+  });
+}
+
+$("#sidebar button[data-backend='']").click();
+</script>
+</body>
+</html>
