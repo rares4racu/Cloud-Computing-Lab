@@ -10,5 +10,5 @@ def upload_avatar(file, client_id: int) -> str:
     blob_name = f"avatars/{client_id}_{uuid.uuid4().hex}"
     blob = bucket.blob(blob_name)
     blob.upload_from_file(file.file, content_type=file.content_type)
-    blob.make_public()
-    return blob.public_url
+    url = f"https://storage.googleapis.com/{BUCKET}/{blob_name}"
+    return url
